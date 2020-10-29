@@ -194,7 +194,7 @@ void		exit_message(char *str);
 int			mix_colors(int col1, int col2, double coef);
 
 t_vector		rt_attribute_color(int color);
-int get_color(t_object *object, t_cross *intersect);
+t_color get_color(t_object *object, t_cross *intersect);
 void	get_tex_coord(t_object *object, int *column, int *row, t_cross *intersect);
 t_vector	vec_normalize(t_vector v);
 t_color ft_get_texture_color(t_object *object, t_vector point);

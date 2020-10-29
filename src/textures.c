@@ -253,11 +253,6 @@ t_color		get_color(t_object *object, t_vector *normal)
 
 
 
-
-
-
-
-
 ///////////////////////////////////////////////////
 
 t_vector	vec_normalize(t_vector v)
@@ -276,19 +271,29 @@ void	get_tex_coord(t_object *object, int *column, int *row, t_cross *intersect)
 {
 	float	u;
 	float	v;
-	t_vector	n;
+	double theta;
 
 	//n = vec_normalize(ft_sub_vectors(&intersect->vec3, &object->pos));
 	//ft_unit_vector(&n);
-	n = ft_sub_vectors(&intersect->vec3, &object->pos);
-	ft_unit_vector(&n);
-	u = 0.5 + atan2(n.z, n.x) / (2 * M_PI);
-	v = 0.5 - asin(n.y) / M_PI;
+	//n = ft_sub_vectors(&intersect->vec3, &object->pos);
+	//ft_unit_vector(&n);
+	t_vector npoint;
+	t_vector tpoint;
+
+	tpoint = ft_sub_vectors(&object->pos, &intersect->vec3);
+	npoint = ft_multkv(1 / ft_lengthv(tpoint), tpoint);
+
+	//u = 0.5 + atan2(npoint.z, npoint.x) / (2 * M_PI);
+	//v = 0.5 - asin(npoint.y) / M_PI;
+	theta = atan2(npoint.x, npoint.z);
+	u = 1 - (theta / (2 * M_PI) + 0.5);
+	v = 0.5 - asin(npoint.y) / M_PI;
+
 	*column = (int)(object->textura.width * u);
 	*row = (int)(object->textura.height * v);
 }
 
-int	get_color(t_object *object, t_cross *intersect)
+t_color	get_color(t_object *object, t_cross *intersect)
 {
 	int		i;
 	int		column;
@@ -303,7 +308,7 @@ int	get_color(t_object *object, t_cross *intersect)
 	color.blue = (float)(unsigned char)object->textura.data[i] / 255;
 	color.green = (float)(unsigned char)object->textura.data[i + 1] / 255;
 	color.red = (float)(unsigned char)object->textura.data[i + 2] / 255;
-	return (((int)color.red << 16) | ((int)color.green << 8) | (int)color.blue);
+	return (color);
 }
 /////////////////////////////
 
