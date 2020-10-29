@@ -122,19 +122,19 @@ int		sepia(int color)
 int			ft_local_color(t_rtv *p, t_cross *intersect, t_vector *norm)
 {
 	double		shade;
-	t_color c;
+	//t_color c;
 	shade = ft_calculate_lighting(p, intersect, norm);
 	/*if ( p->object[intersect->id]->texture == CHESS)
 	{
 		c = ft_get_texture_color(p->object[intersect->id], intersect->vec3);
 		return (color(&c, shade));
 	}*/
-	if ( p->object[intersect->id]->texture == CHESS)
+	/*if ( p->object[intersect->id]->texture == CHESS)
 	{
 		c = get_color(p->object[intersect->id], intersect);
 		return (color(&c, shade));
-	}
-	else
+	}*/
+	//else
 		return (color(&p->object[intersect->id]->color, shade));
 	
 	/*{

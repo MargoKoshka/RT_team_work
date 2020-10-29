@@ -172,8 +172,10 @@ int		key_press(int key, t_rtv *p)
 		reflect(p);
 	if (key == KEY_N)
 		aliasing_effects(p);
+	//if (key == KEY_T)
+	//	p->filter = 'S';
 	if (key == KEY_T)
-		p->filter = 'S';
+		color_to_anaglyph(p);
 		
 	//if ( key == KEY_ANSI_S)
 	//	p->color_schema = 1;

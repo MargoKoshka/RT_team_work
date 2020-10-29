@@ -212,4 +212,8 @@ int			color_limits(int col);
 t_color	rainbow(t_rtv *p);
 t_vector	hextorgb(int hex);
 
+t_color int_to_rgb(int p);
+void	anaglyph(t_rtv *scene, int p1, int p2, int p);
+void color_to_anaglyph(t_rtv *scene);
+
 #endif

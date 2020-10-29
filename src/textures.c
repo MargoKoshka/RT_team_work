@@ -312,6 +312,100 @@ t_color	get_color(t_object *object, t_cross *intersect)
 }
 /////////////////////////////
 
+t_color int_to_rgb(int p)
+{
+	t_color c;
+
+	c.red = (p >> 16) & 0xFF;
+	c.green = (p >> 8) & 0xFF;
+	c.blue = (p >> 16) & 0xFF;
+	return(c);
+}
+
+void	anaglyph(t_rtv *scene, int p1, int p2, int p)
+{
+	t_color c1;
+	t_color c2;
+	t_color c;
+	
+	c1 = int_to_rgb(scene->draw[p1]);
+	c2 = int_to_rgb(scene->draw[p2]);
+	c = int_to_rgb(scene->draw[p]);
+	c.red = c1.red * 0.299 + c1.green * 0.587 + c1.blue * 0.114;
+	c.green = 0;
+	c.blue = c2.red * 0.299 + c2.green * 0.587 + c2.blue * 0.114;
+	scene->draw[p] = ((c.red << 16) | (c.green << 8) | c.blue);
+}
+
+void color_to_anaglyph(t_rtv *scene)
+{
+	int		i;
+	int		j;
+	int		p;
+	int		p1;
+	int		p2;
+	
+	//scene->mlx.anaglyph_img = mlx_new_image(scene->mlx.init, WIN_WIDTH, WIN_HEIGHT);
+	//scene->image.anaglyph_data = (int *)mlx_get_data_addr(scene->mlx.img, &scene->image.bpp,&scene->image.size, &scene->image.endian);
+	
+
+
+	i = 0;
+	j = 0;
+	while (j < scene->height)
+	{
+		while (i < scene->width)
+		{
+			p = scene->width * j + i;
+			p1 = scene->width * j + i - 3;
+			p2 = scene->width * j + i + 3;
+			if ((i - 3) < 0)
+				p1 = p;
+			if ((i + 3) > scene->width - 1)
+				p2 = p;
+			anaglyph(scene, p1, p2, p);
+			i++;
+		}
+		i = 0;
+		j++;
+	}
+	//ft_paint_scene(scene);
+	mlx_put_image_to_window(scene->mlx_ptr, scene->win_ptr, scene->img_ptr, 0, 0);
+}
+//ft_paint_scene(scene)
+
+
+
+/*
+char		get_lines_sphere(t_object *object, t_cross *intersect)
+{
+	double theta;
+	t_color color;
+	double u;
+	double v;
+	t_vector npoint;
+	t_vector tpoint;
+	int		l;
+
+	l = 12;
+	// l parametre a intégrer dans les propriétés objets (taille texture)
+	tpoint = ft_sub_vectors(&object->pos, &point);
+	npoint = ft_multkv(1 / ft_lengthv(tpoint), tpoint) ;
+	theta = atan2(npoint.x, npoint.z);
+	u = 1 - (theta / (2 * M_PI) + 0.5);	
+	v = 0.5 - asin(npoint.y) / M_PI;
+	if ((int)(l * v) % 2)
+		return (0);
+	else
+		return (1);
+}
+
+*/
+
+
+
+
+
 /*
 
 
