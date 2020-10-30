@@ -71,7 +71,7 @@ void	init_cylindr(t_rtv *p, char **tab, int *i)
 	p->object[*i]->txt_size = 200;
 	//
 	if (p->object[*i]->texture == EARTH)
-		load_texture_to_obj(p, p->object[*i]); // load texture;
+		(p, p->object[*i]); // load texture;
 	
 	*/
 	ft_rotate_vector(&p->object[*i]->angle_n, &p->object[*i]->axis);
@@ -96,6 +96,7 @@ void	init_plane(t_rtv *p, char **tab, int *i)
 	p->object[*i]->refraction = ft_atof(tab[7]);
 	p->object[*i]->min = ft_atof(tab[8]);
 	p->object[*i]->max = ft_atof(tab[9]);
+	p->object[*i]->texture = NO_TEXTURE;
 	//if (ft_strcmp(tab[10], "EARTH") == 0)
 	//{
 	//p->object[*i]->texture = EARTH;
@@ -143,7 +144,8 @@ void	init_sphere(t_rtv *p, char **tab, int *i)
 		p->object[*i]->min = ft_atof(tab[7 + shift]);
 	//p->object[*i]->txt_size = 12;
 	//if (ft_strcmp(tab[11],  "EARTH") == 0)
-	p->object[*i]->texture = CHESS;
+	p->object[*i]->texture = EARTH;
+	load_texture(p ,p->object[*i]);
 	//else
 	//	p->object[*i]->texture = NO_TEXTURE; 
 	*i += 1;

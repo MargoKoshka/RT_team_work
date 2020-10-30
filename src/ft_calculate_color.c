@@ -122,29 +122,42 @@ int		sepia(int color)
 int			ft_local_color(t_rtv *p, t_cross *intersect, t_vector *norm)
 {
 	double		shade;
-	//t_color c;
+	t_color c; 
+	int last_color;
 	shade = ft_calculate_lighting(p, intersect, norm);
-	/*if ( p->object[intersect->id]->texture == CHESS)
+	if ( p->object[intersect->id]->texture == CHESS)
 	{
 		c = ft_get_texture_color(p->object[intersect->id], intersect->vec3);
-		return (color(&c, shade));
-	}*/
+		last_color = color(&c, shade);
+	}
+	else if (p->object[intersect->id]->texture == EARTH)
+	{
+		c = get_color(p->object[intersect->id], intersect);
+		last_color = color(&c, shade);
+	}
+	else if (p->object[intersect->id]->texture == NO_TEXTURE)
+		last_color = color(&p->object[intersect->id]->color, shade);
+	
+	if	(p->filter == 'O')
+		last_color =  sepia(last_color);
+
+	return(last_color);
+	//else if (p->object[intersect->id]->texture == NO_TEXTURE )
+	//	return (color(&p->object[intersect->id]->color, shade));
 	/*if ( p->object[intersect->id]->texture == CHESS)
 	{
 		c = get_color(p->object[intersect->id], intersect);
 		return (color(&c, shade));
 	}*/
 	//else
-		return (color(&p->object[intersect->id]->color, shade));
+	//	c = color(&p->object[intersect->id]->color, shade);
+
 	
 	/*{
 		p->object[intersect->id]->color = get_color(p->object[intersect->id], intersect);
 		return(get_color(p->object[intersect->id], intersect));// color(&p->object[intersect->id]->color, shade)); // тут достаю цвет пикселя
 	}*/
-	/*if (p->filter == 'S')
-		return (sepia(color(&p->object[intersect->id]->color, shade)));
-	else
-		return (color(&p->object[intersect->id]->color, shade));*/
+	
 	
 	
 

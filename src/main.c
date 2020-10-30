@@ -57,8 +57,10 @@ void	ft_mlx_init(t_rtv *p, char *str)
 	//p->mlx_ptr = mlx_init();
 	p->win_ptr = mlx_new_window(p->mlx_ptr, p->width, p->height, str);
 	p->img_ptr = mlx_new_image(p->mlx_ptr, p->width, p->height);
+	//p->filtered_img = mlx_new_image(p->mlx_ptr, p->width, p->height);
 	p->draw = (int *)mlx_get_data_addr(p->img_ptr, &p->bpp, \
 				&p->size_line, &p->endian);
+	
 }
 
 void	ft_paint_scene(t_rtv *paint)
