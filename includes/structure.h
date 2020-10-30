@@ -129,14 +129,15 @@ typedef struct s_textura
 {
 	void			*image;   // *ptr
 	char			*name;   // *path
-	char				*data; // int *data
+	char		*data; // int *data
 	int				bpp; //bits_per_pixel
 	int				size_line;
 	int				endian;
 	int				width;
 	int				height;
 	/////
-	double			scale;
+	//double			scale;
+	int 			*tab;
 }				t_textura;
 
 ////////////////////////////////////////////

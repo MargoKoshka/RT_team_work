@@ -1,6 +1,5 @@
 
-
-
+/*
 
 
 t_vector			rt_getcolor(t_timage img, int x, int y)
@@ -38,4 +37,4 @@ t_vector			rt_map_sphere(t_vector normal, t_vector intercolor,
 		% env->form[inter->id].timage.height;
 	intercolor = rt_getcolor(env->form[inter->id].timage, (int)u, (int)v);
 	return (intercolor);
-}
+} */

@@ -34,6 +34,48 @@ int ft_gen_chess(int countu, int countv, double u, double v)
 	else 
 		return (0);
 }
+/*
+int ft_gen_column(int countu, double u)
+{
+	double i;
+
+	i = 0;
+	i = (int)(u/(1/(double)countu)) ;
+	if ((int)(i) % 2 == 0)
+		return(1);
+	else 
+		return (0);
+}
+t_color ft_map_texture_sphere(t_object *object, t_vector point)
+{
+	double theta;
+	t_color color;
+	double u;
+	double v;
+	t_vector npoint;
+	t_vector tpoint;
+
+	tpoint = ft_sub_vectors(&object->pos, &point);
+	npoint = ft_multkv(1 / ft_lengthv(tpoint), tpoint) ;
+
+
+theta = atan2(npoint.x, npoint.z);
+u = 1 - (theta / (2 * M_PI) + 0.5);
+v = 0.5 - asin(npoint.y) / M_PI;
+
+if (ft_gen_column(18,u) == 0)
+{
+color.red = 0;
+color.green = 0;
+color.blue = 0;
+}
+else
+{
+color = object->color;
+}
+return(color);
+}
+*/
 
 t_color ft_map_texture_sphere(t_object *object, t_vector point)
 {
@@ -64,6 +106,49 @@ color = object->color;
 }
 return(color);
 }
+
+/*
+int ft_gen_lines(int countv, double v)
+{
+	double j;
+	j = 0;
+	j = (int)(v / (1/(double)countv));
+	if ((int)(j) % 2 == 0)
+		return(1);
+	else 
+		return (0);
+}
+
+t_color ft_map_texture_sphere(t_object *object, t_vector point)
+{
+	double theta;
+	t_color color;
+	double u;
+	double v;
+	t_vector npoint;
+	t_vector tpoint;
+
+	tpoint = ft_sub_vectors(&object->pos, &point);
+	npoint = ft_multkv(1 / ft_lengthv(tpoint), tpoint) ;
+
+
+	theta = atan2(npoint.x, npoint.z);
+	u = 1 - (theta / (2 * M_PI) + 0.5);
+	v = 0.5 - asin(npoint.y) / M_PI;
+
+	if (ft_gen_lines(8,v) == 0)
+	{
+	color.red = 0;
+	color.green = 0;
+	color.blue = 0;
+	}
+	else	
+	{
+		color = object->color;
+	}
+	return(color);
+}*/
+
 
 t_color ft_map_texture_plane(t_object *object, t_vector point)
 {

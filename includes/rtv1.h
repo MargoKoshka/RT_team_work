@@ -188,7 +188,7 @@ int             *get_xpm_size(char *file, t_object *obj);
 int		*get_wh(char *str, int *wh);
 void		free_split(char **split);
 void		replace_char(char *str);
-int		**color_tab(int *imgstr, int *size);
+
 void		free_color_tab(int **tab, int y);
 void		exit_message(char *str);
 int			mix_colors(int col1, int col2, double coef);
@@ -206,7 +206,6 @@ t_vector	ft_multkv(double k, t_vector v);
 double	ft_lengthv(t_vector v);
 double	ft_dotprod(t_vector v1, t_vector v2);
 
-
 int		sepia(int color);
 int			color_limits(int col);
 t_color	rainbow(t_rtv *p);
@@ -215,5 +214,20 @@ t_vector	hextorgb(int hex);
 t_color int_to_rgb(int p);
 void	anaglyph(t_rtv *scene, int p1, int p2, int p);
 void color_to_anaglyph(t_rtv *scene);
+
+void	cartooning(t_rtv *e);
+void	create_palette(t_rtv *e, int *palette);
+int		palette_compare(int *palette, int color);
+int		clr_abs_dif(int col1, int col2);
+t_vector	vec_sub(t_vector v1, t_vector v2);
+t_vector	hextorgb(int hex);
+void	line(t_rtv *e);
+void	flatten_colors(t_rtv *e, int *palette);
+char	init_palette(int *palette);
+char	line_condition(t_rtv *e, int y, int z);
+int		major_color(int color);
+int		closest_col(int *palette, int color);
+int		palette_add(int *palette, int color);
+int		*color_tab(char *imgstr, int size, int size1);
 
 #endif

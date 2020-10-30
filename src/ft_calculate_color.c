@@ -123,7 +123,7 @@ int			ft_local_color(t_rtv *p, t_cross *intersect, t_vector *norm)
 {
 	double		shade;
 	t_color c; 
-	int last_color;
+	int last_color = 0;
 	shade = ft_calculate_lighting(p, intersect, norm);
 	if ( p->object[intersect->id]->texture == CHESS)
 	{

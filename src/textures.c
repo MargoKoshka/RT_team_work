@@ -1,16 +1,59 @@
 #include "rtv1.h"
 #include <stdio.h>
+/*
+int		*color_tab(char *imgstr, int size, int size1)
+{
+	int		*color_tab;
+	int		total_size;
+	int		i;
 
+	i = 0;
+	total_size = size * size1;
+	color_tab = (int *)malloc(sizeof(int*) * total_size);
+	while (i < total_size)
+	{
+		color_tab[i] = imgstr[i];
+		i++;
+	}
+	return (color_tab);
+}*/
+/*
+int		**color_tab(int *imgstr, int size, int size1)
+{
+	int		**color_tab;
+	int		x;
+	int		y;
+	int		i;
+
+	y = -1;
+	i = 0;
+	if (!(color_tab = (int **)malloc(sizeof(int*) * size1 * 2)) || !imgstr)
+		return (NULL);
+	while (++y < size1)
+	{
+		if (!(color_tab[y] = (int *)malloc(sizeof(int) * size * 2)))
+		{
+			//free_color_tab(color_tab, y);
+			return (NULL);
+		}
+		x = -1;
+		while (++x < size)
+		{
+			color_tab[y][x] = imgstr[i];
+			i++;
+		}
+	}
+	return (color_tab);
+}
+*/
 int		load_texture(t_rtv *p,t_object *obj)
 {
-
 	obj->textura.name = "xpm/earth.xpm";
 	obj->textura.image = mlx_xpm_file_to_image(p->mlx_ptr, obj->textura.name, &obj->textura.width, &obj->textura.height);
 	obj->textura.data = mlx_get_data_addr(obj->textura.image, &obj->textura.bpp, &obj->textura.size_line, &obj->textura.endian);
-
+	//obj->textura.tab = color_tab(obj->textura.data, obj->textura.width,obj->textura.height );
 	return (1);
 }
-
 
 ///////////////////////////////////////////////////
 
@@ -28,22 +71,26 @@ t_vector	vec_normalize(t_vector v)
 
 void	get_tex_coord(t_object *object, int *column, int *row, t_cross *intersect)
 {
-	float	u;
-	float	v;
-	double theta;
-
+	float theta;
+	float u;
+	float v;
 	t_vector npoint;
 	t_vector tpoint;
 
 	tpoint = ft_sub_vectors(&object->pos, &intersect->vec3);
-	npoint = ft_multkv(1 / ft_lengthv(tpoint), tpoint);
-	theta = atan2(npoint.x, npoint.z);
-	u = 0.5 - (theta / (2 * M_PI));
-	v = 0.5 - asin(npoint.y) / M_PI;
+	npoint = ft_multkv(1 / ft_lengthv(tpoint), tpoint) ;
 
+
+	theta = atan2(npoint.x, npoint.z);
+	u = 0.5 + atan2(npoint.z, npoint.x) / M_PI * 0.5; //1 - (theta / (2 * M_PI) + 0.5);
+	v = 0.5 - asin(npoint.y) / M_PI;
+	//printf("u: %f\n, v: %f\n", u, v); 
+	//printf("returning offset %d\n", (int)(u) + (int)(v) * object->textura.width);
 	*column = (int)(object->textura.width * u);
 	*row = (int)(object->textura.height * v);
+	//printf("column: %d, row: %d\n", *column, *row);
 }
+
 
 t_color	get_color(t_object *object, t_cross *intersect)
 {
@@ -52,19 +99,24 @@ t_color	get_color(t_object *object, t_cross *intersect)
 	int		row;
 	t_color	color;
 
+
 	i = 0;
 	column = 0;
 	row = 0;
 	get_tex_coord(object, &column, &row, intersect);
 	i = row * object->textura.size_line + object->textura.bpp / 8 * column;
-	color.blue = (float)(unsigned char)object->textura.data[i] / 255;
-	color.green = (float)(unsigned char)object->textura.data[i + 1] / 255;
-	color.red = (float)(unsigned char)object->textura.data[i + 2] / 255;
+	//printf("%d\n", i);
+	color.blue = (int)(unsigned char)object->textura.data[i];//(int)(unsigned char)object->textura.data[i] / 255;
+	color.green = (int)(unsigned char)object->textura.data[i + 1];//(int)(unsigned char)object->textura.data[i + 1] / 255;
+	color.red = (int)(unsigned char)object->textura.data[i + 2];//(int)(unsigned char)object->textura.data[i + 2] / 255;
+	
 	return (color);
 }
 /////////////////////////////
 
 
+
+/////////////////////////////
 t_color int_to_rgb(int p)
 {
 	t_color c;
@@ -120,6 +172,8 @@ void color_to_anaglyph(t_rtv *scene)
 	}
 	mlx_put_image_to_window(scene->mlx_ptr, scene->win_ptr, scene->img_ptr, 0, 0);
 } 
+
+
 /*
 
 int		ft_isspace(int c)
