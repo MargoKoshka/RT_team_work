@@ -84,12 +84,81 @@ void	get_tex_coord(t_object *object, int *column, int *row, t_cross *intersect)
 	theta = atan2(npoint.x, npoint.z);
 	u = 0.5 + atan2(npoint.z, npoint.x) / M_PI * 0.5; //1 - (theta / (2 * M_PI) + 0.5);
 	v = 0.5 - asin(npoint.y) / M_PI;
-	//printf("u: %f\n, v: %f\n", u, v); 
-	//printf("returning offset %d\n", (int)(u) + (int)(v) * object->textura.width);
 	*column = (int)(object->textura.width * u);
 	*row = (int)(object->textura.height * v);
-	//printf("column: %d, row: %d\n", *column, *row);
 }
+
+/*
+t_vector	ft_vec3(float x, float y, float z)
+{
+	t_vector res;
+
+	res.x = x;
+	res.y = y;
+	res.z = z;
+	return (res);
+}
+
+float	ft_vec3_dot(t_vector a, t_vector b)
+{
+	return (a.x * b.x + a.y * b.y + a.z * b.z);
+}
+//ft_plane_uv(o, o->e.plane.normal, pos, &uv);
+void	get_tex_coord(t_object *object, int *column, int *row, t_cross *intersect)
+{
+
+	float u;
+	float v;
+	t_vector tpoint;
+	t_vector npoint;
+
+	tpoint = ft_vec3(object->axis.y , object->axis.z, -object->axis.x);
+	npoint = ft_sub_vectors(&object->pos, &intersect->vec3);
+
+	u = ft_vec3_dot(intersect->vec3, tpoint) * 1.0; 
+	v = ft_vec3_dot(intersect->vec3, npoint) * 1.0;
+	if (u < 0.0f)
+		u *= -1.0f;
+	if (v < 0.0f)
+		v *= -1.0f;
+	*column = (int) u;
+	*row = (int) v;
+}
+*/
+/*
+void	get_tex_coord(t_object *object, int *column, int *row, t_cross *intersect)
+{
+	//float theta;
+	float u;
+	float v;
+	t_vector tpoint;
+	//t_vector npoint;
+	t_vector	axis[2];
+	axis[0] = (t_vector){1, 0, 0};
+	ft_rotate_vector(&object->angle_n, &axis[0]);
+	axis[1] = (t_vector){0, 0, 1};
+	ft_rotate_vector(&object->angle_n, &axis[1]);
+
+	tpoint = ft_sub_vectors(&intersect->vec3, &object->pos);
+	ft_unit_vector(&tpoint);
+	float k_width = (float)object->textura.width / object->min;
+    float k_height = (float)object->textura.height / object->max;
+	float u1 = ft_vector_projection_on_ray(&tpoint, &axis[0]);
+	float v1 = ft_vector_projection_on_ray(&tpoint, &axis[1]);
+	u = (u1 - object->min /  2)/object->min;
+	v = (v1 - object->max / 2);
+	//u = 0.5 + atan2(npoint.z, npoint.x) / M_PI * 0.5; //1 - (theta / (2 * M_PI) + 0.5);
+	//v = 0.5 - asin(npoint.y) / M_PI;
+	//printf("u: %f, v: %f\n", u, v); 
+	if (u < 0.0f)
+		u *= -1.0f;
+	if (v < 0.0f)
+		v *= -1.0f;
+	//printf("returning offset %d\n", (int)(u) + (int)(v) * object->textura.width);
+	*column = (int)(object->textura.width * k_width);//(object->textura.width * k_width);
+	*row = (int)(object->textura.height * k_height);//(object->textura.height * k_height);
+	//printf("column: %d, row: %d\n", *column, *row);
+}*/
 
 
 t_color	get_color(t_object *object, t_cross *intersect)

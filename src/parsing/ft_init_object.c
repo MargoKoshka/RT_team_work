@@ -97,6 +97,7 @@ void	init_plane(t_rtv *p, char **tab, int *i)
 	p->object[*i]->min = ft_atof(tab[8]);
 	p->object[*i]->max = ft_atof(tab[9]);
 	p->object[*i]->texture = NO_TEXTURE;
+	load_texture(p ,p->object[*i]);
 	//if (ft_strcmp(tab[10], "EARTH") == 0)
 	//{
 	//p->object[*i]->texture = EARTH;
@@ -144,8 +145,8 @@ void	init_sphere(t_rtv *p, char **tab, int *i)
 		p->object[*i]->min = ft_atof(tab[7 + shift]);
 	//p->object[*i]->txt_size = 12;
 	//if (ft_strcmp(tab[11],  "EARTH") == 0)
-	p->object[*i]->texture = EARTH;
-	load_texture(p ,p->object[*i]);
+	p->object[*i]->texture = NO_TEXTURE;
+	//load_texture(p ,p->object[*i]);
 	//else
 	//	p->object[*i]->texture = NO_TEXTURE; 
 	*i += 1;

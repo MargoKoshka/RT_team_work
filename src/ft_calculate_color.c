@@ -136,12 +136,46 @@ int			ft_local_color(t_rtv *p, t_cross *intersect, t_vector *norm)
 		last_color = color(&c, shade);
 	}
 	else if (p->object[intersect->id]->texture == NO_TEXTURE)
-		last_color = color(&p->object[intersect->id]->color, shade);
+	{
+		c = set_color_cartoon(p->object[intersect->id]->color, shade);
+		last_color = color(&c, shade);
+	}
+		//last_color = color(&p->object[intersect->id]->color, shade);
 	
 	if	(p->filter == 'O')
 		last_color =  sepia(last_color);
-
+	/*if	(p->filter = 'X')
+		last_color = wave(last_color,p);*/
+	
 	return(last_color);
+}
+
+t_color			set_color_cartoon(t_color color, double light)
+{
+	t_color c;
+	if (light < 0.3)
+		light = 0.3;
+	else if (light < 0.7)
+		light = 0.7;
+	else
+		light = 1.0;
+	c.red = color.red * light;
+	c.green = color.green * light;
+	c.blue = color.blue * light;
+	return(c);
+}
+
+
+/*
+void			wave(t_color *v, t_rtv *p)
+{
+
+	v.red = sin(p * p->pos.x);
+	v.green = 0;
+	v->blue = 0;
+	p->nor = v3add(p->nor, v);
+}*/
+
 	//else if (p->object[intersect->id]->texture == NO_TEXTURE )
 	//	return (color(&p->object[intersect->id]->color, shade));
 	/*if ( p->object[intersect->id]->texture == CHESS)
@@ -157,8 +191,3 @@ int			ft_local_color(t_rtv *p, t_cross *intersect, t_vector *norm)
 		p->object[intersect->id]->color = get_color(p->object[intersect->id], intersect);
 		return(get_color(p->object[intersect->id], intersect));// color(&p->object[intersect->id]->color, shade)); // тут достаю цвет пикселя
 	}*/
-	
-	
-	
-
-}

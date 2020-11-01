@@ -179,6 +179,8 @@ int		key_press(int key, t_rtv *p)
 		p->filter = 'S';
 	if (key == KEY_B)
 		p->filter = 'B';
+	//if (key = KEY_L)
+	//	p->filter = 'X';
 	//	cartooning(p);
 	//if ( key == KEY_ANSI_S)
 	//	p->color_schema = 1;

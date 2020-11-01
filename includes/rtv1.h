@@ -234,5 +234,10 @@ int		*color_tab(char *imgstr, int size, int size1);
 
 void	mb(t_rtv *scene, int p1, int p2, int p);
 void motion_bluer(t_rtv *scene);
+float	ft_vec3_dot(t_vector a, t_vector b);
+t_vector	ft_vec3(float x, float y, float z);
+t_color				set_color_cartoon(t_color color, double light);
+
+
 
 #endif

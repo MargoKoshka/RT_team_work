@@ -61,6 +61,8 @@ int		expose_hook(t_rtv *p)
 		color_to_anaglyph(p);
 	if (p->filter == 'B')
 		motion_bluer(p);
+	//if (p->filter = 'X')
+	//	wave(p);
 	//	cartooning(p);
 
 	return (1);
