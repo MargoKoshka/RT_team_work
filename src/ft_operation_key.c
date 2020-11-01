@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_operation_key.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wrhett <wrhett@student.21-school.ru>       +#+  +:+       +#+        */
+/*   By: msole <msole@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/04/02 16:09:11 by wrhett            #+#    #+#             */
-/*   Updated: 2020/10/18 16:34:28 by wrhett           ###   ########.fr       */
+/*   Updated: 2020/11/01 13:32:48 by msole            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	look(int key, t_rtv *p)
 		start.x -= K_ZOOM;
 	else if (key == KEY_D || key == KEY_RIGHT)
 		start.x += K_ZOOM;
-	ft_rotate_vector(&p->camera->angle, &start); // перемещение 
+	ft_rotate_vector(&p->camera->angle, &start); // перемещение
 	p->camera->start.x += start.x;
 	p->camera->start.y += start.y;
 	p->camera->start.z += start.z;
@@ -89,7 +89,7 @@ void	look(int key, t_rtv *p)
 void	zoom(int key, t_rtv *p)
 {
 	int width;
-	
+
 	width = p->width;
 	if (key == NUM_KEY_PLUS)
 		p->fov += K_FOV;

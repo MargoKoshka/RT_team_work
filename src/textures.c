@@ -84,7 +84,7 @@ void	get_tex_coord(t_object *object, int *column, int *row, t_cross *intersect)
 	theta = atan2(npoint.x, npoint.z);
 	u = 0.5 + atan2(npoint.z, npoint.x) / M_PI * 0.5; //1 - (theta / (2 * M_PI) + 0.5);
 	v = 0.5 - asin(npoint.y) / M_PI;
-	//printf("u: %f\n, v: %f\n", u, v); 
+	//printf("u: %f\n, v: %f\n", u, v);
 	//printf("returning offset %d\n", (int)(u) + (int)(v) * object->textura.width);
 	*column = (int)(object->textura.width * u);
 	*row = (int)(object->textura.height * v);
@@ -109,7 +109,7 @@ t_color	get_color(t_object *object, t_cross *intersect)
 	color.blue = (int)(unsigned char)object->textura.data[i];//(int)(unsigned char)object->textura.data[i] / 255;
 	color.green = (int)(unsigned char)object->textura.data[i + 1];//(int)(unsigned char)object->textura.data[i + 1] / 255;
 	color.red = (int)(unsigned char)object->textura.data[i + 2];//(int)(unsigned char)object->textura.data[i + 2] / 255;
-	
+
 	return (color);
 }
 /////////////////////////////
@@ -123,7 +123,7 @@ t_color int_to_rgb(int p)
 
 	c.red = (p >> 16) & 0xFF;
 	c.green = (p >> 8) & 0xFF;
-	c.blue = (p >> 16) & 0xFF;
+	c.blue = (p) & 0xFF;
 	return(c);
 }
 
@@ -132,7 +132,7 @@ void	anaglyph(t_rtv *scene, int p1, int p2, int p)
 	t_color c1;
 	t_color c2;
 	t_color c;
-	
+
 	c1 = int_to_rgb(scene->draw[p1]);
 	c2 = int_to_rgb(scene->draw[p2]);
 	c = int_to_rgb(scene->draw[p]);
@@ -189,7 +189,7 @@ void motion_bluer(t_rtv *scene)
 		j++;
 	}
 	mlx_put_image_to_window(scene->mlx_ptr, scene->win_ptr, scene->filtered_img, 0, 0);
-} 
+}
 
 void color_to_anaglyph(t_rtv *scene)
 {
@@ -219,7 +219,7 @@ void color_to_anaglyph(t_rtv *scene)
 		j++;
 	}
 	mlx_put_image_to_window(scene->mlx_ptr, scene->win_ptr, scene->filtered_img, 0, 0);
-} 
+}
 
 
 /*
