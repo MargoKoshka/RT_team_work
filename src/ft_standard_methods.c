@@ -59,6 +59,8 @@ int		expose_hook(t_rtv *p)
 		ft_drawing_menu(p);
 	if (p->filter == 'S')
 		color_to_anaglyph(p);
+	if (p->filter == 'B')
+		motion_bluer(p);
 	//	cartooning(p);
 
 	return (1);

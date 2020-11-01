@@ -177,6 +177,8 @@ int		key_press(int key, t_rtv *p)
 	if (key == KEY_T)
 		//color_to_anaglyph(p);
 		p->filter = 'S';
+	if (key == KEY_B)
+		p->filter = 'B';
 	//	cartooning(p);
 	//if ( key == KEY_ANSI_S)
 	//	p->color_schema = 1;

@@ -229,5 +229,10 @@ int		major_color(int color);
 int		closest_col(int *palette, int color);
 int		palette_add(int *palette, int color);
 int		*color_tab(char *imgstr, int size, int size1);
+////////////
+
+
+void	mb(t_rtv *scene, int p1, int p2, int p);
+void motion_bluer(t_rtv *scene);
 
 #endif
