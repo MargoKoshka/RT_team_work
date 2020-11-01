@@ -224,8 +224,10 @@ typedef struct		s_rtv
 	int				depth_refract;
 	int				aliasing;
 	int				samples;
-
-	//void			*filtered_img;
+	
+	/////////////
+	int				*filtered_data;
+	void			*filtered_img;
 	//////
 	t_vector				p;
 	int				color_schema; // 0 - standart; 1 - sepia;

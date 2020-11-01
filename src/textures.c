@@ -140,7 +140,7 @@ void	anaglyph(t_rtv *scene, int p1, int p2, int p)
 	c.red = c1.red * 0.299 + c1.green * 0.587 + c1.blue * 0.114;
 	c.green = 0;
 	c.blue = c2.red * 0.299 + c2.green * 0.587 + c2.blue * 0.114;
-	scene->draw[p] = ((c.red << 16) | (c.green << 8) | c.blue);
+	scene->filtered_data[p] = ((c.red << 16) | (c.green << 8) | c.blue);
 }
 
 void color_to_anaglyph(t_rtv *scene)
@@ -170,7 +170,7 @@ void color_to_anaglyph(t_rtv *scene)
 		i = 0;
 		j++;
 	}
-	mlx_put_image_to_window(scene->mlx_ptr, scene->win_ptr, scene->img_ptr, 0, 0);
+	mlx_put_image_to_window(scene->mlx_ptr, scene->win_ptr, scene->filtered_img, 0, 0);
 } 
 
 

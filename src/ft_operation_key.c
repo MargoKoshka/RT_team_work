@@ -174,9 +174,9 @@ int		key_press(int key, t_rtv *p)
 		aliasing_effects(p);
 	if (key == KEY_O)
 		p->filter = 'O';
-	//if (key == KEY_T)
+	if (key == KEY_T)
 		//color_to_anaglyph(p);
-		//p->filter = 'S';
+		p->filter = 'S';
 	//	cartooning(p);
 	//if ( key == KEY_ANSI_S)
 	//	p->color_schema = 1;
