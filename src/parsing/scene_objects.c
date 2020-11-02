@@ -53,15 +53,7 @@ int		how_many_object(int fd)
 void	add_object_to_tab(t_rtv *paint, char **tab, int *i)
 {
 	if (ft_strcmp(tab[0], "Sphere") == 0)
-	{
 		init_sphere(paint, tab, i);
-		
-		/*if (paint->object[*i -1]->texture == EARTH)
-			if (!(load_texture(paint, paint->object[*i - 1])))
-				ft_putstr_fd("Load texture to object failed !\n", 2);*/
-		//load_texture(paint, paint->object[*i -1]);
-		printf("NAME- %s, WIDTH- %d\n", paint->object[*i -1]->textura.name, paint->object[*i -1]->textura.width);
-	}
 	else if (ft_strcmp(tab[0], "Plane") == 0)
 		init_plane(paint, tab, i);
 	else if (ft_strcmp(tab[0], "Cylindr") == 0)

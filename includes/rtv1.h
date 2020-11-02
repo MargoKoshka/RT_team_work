@@ -181,7 +181,11 @@ void		calculate_constant(t_rtv *p, t_vector *start);
 // size_t		ft_len_wordtab(char **tab);
 // int			ft_free_wordtab(char **tab);
 
-int		load_texture(t_rtv *e,t_object *obj);
+int		load_texture_blur(t_rtv *e,t_object *obj);
+int		load_texture_earth(t_rtv *p,t_object *obj);
+int		load_texture_grass(t_rtv *p,t_object *obj);
+int		load_texture_wood(t_rtv *p,t_object *obj);
+
 int			err_malloc_texture(int *size, t_object *object);
 void		free_size_obj(int *size, t_object *object);
 int             *get_xpm_size(char *file, t_object *obj);
@@ -194,8 +198,8 @@ void		exit_message(char *str);
 int			mix_colors(int col1, int col2, double coef);
 
 t_vector		rt_attribute_color(int color);
-t_color get_color(t_object *object, t_cross *intersect);
-void	get_tex_coord(t_object *object, int *column, int *row, t_cross *intersect);
+t_color get_color_sphere(t_object *object, t_cross *intersect);
+void	get_tex_coord_plane(t_object *object, int *column, int *row, t_cross *intersect);
 t_vector	vec_normalize(t_vector v);
 t_color ft_get_texture_color(t_object *object, t_vector point);
 t_color ft_map_texture_cylindr(t_object *object, t_vector point);
@@ -230,14 +234,21 @@ int		closest_col(int *palette, int color);
 int		palette_add(int *palette, int color);
 int		*color_tab(char *imgstr, int size, int size1);
 ////////////
-
+t_color	get_color_plane(t_object *object, t_cross *intersect);
 
 void	mb(t_rtv *scene, int p1, int p2, int p);
 void motion_bluer(t_rtv *scene);
 float	ft_vec3_dot(t_vector a, t_vector b);
 t_vector	ft_vec3(float x, float y, float z);
 t_color				set_color_cartoon(t_color color, double light);
-
+void	get_tex_coord_sphere(t_object *object, int *column, int *row, t_cross *intersect);
+t_color	get_color(t_object *object, t_cross *intersect);
+void	get_tex_coord_cylindr(t_object *object, int *column, int *row, t_cross *intersect);
+t_color	get_color_cylindr(t_object *object, t_cross *intersect);
+void	get_tex_coord_cone(t_object *object, int *column, int *row, t_cross *intersect);
+t_color	get_color_cone(t_object *object, t_cross *intersect);
+int		*create_perlinmap(void);
+t_color		makenoise_perlin(t_cross *intersect, int *perlin_tab,t_color *hit);
 
 
 #endif

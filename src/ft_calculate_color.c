@@ -124,31 +124,50 @@ int			ft_local_color(t_rtv *p, t_cross *intersect, t_vector *norm)
 	double		shade;
 	t_color c; 
 	int last_color = 0;
+//if	(p->filter == 'X')
+	//	wave(intersect);
 	shade = ft_calculate_lighting(p, intersect, norm);
 	if ( p->object[intersect->id]->texture == CHESS)
 	{
 		c = ft_get_texture_color(p->object[intersect->id], intersect->vec3);
 		last_color = color(&c, shade);
 	}
-	else if (p->object[intersect->id]->texture == EARTH)
+	else if (p->object[intersect->id]->texture == EARTH || p->object[intersect->id]->texture == BLUR || p->object[intersect->id]->texture == WOOD || p->object[intersect->id]->texture == GRASS)
 	{
 		c = get_color(p->object[intersect->id], intersect);
 		last_color = color(&c, shade);
 	}
 	else if (p->object[intersect->id]->texture == NO_TEXTURE)
 	{
-		c = set_color_cartoon(p->object[intersect->id]->color, shade);
+		//c = get_color(p->object[intersect->id], intersect);
+		last_color = color(&p->object[intersect->id]->color,shade);
+	}
+	else if (p->object[intersect->id]->texture == PERLIN)
+	{
+		c = makenoise_perlin(intersect, p->object[intersect->id]->perlin_tab, &p->object[intersect->id]->color);
 		last_color = color(&c, shade);
 	}
 		//last_color = color(&p->object[intersect->id]->color, shade);
 	
 	if	(p->filter == 'O')
 		last_color =  sepia(last_color);
-	/*if	(p->filter = 'X')
-		last_color = wave(last_color,p);*/
+	//if	(p->filter == 'X')
+	//	last_color = wave(last_color,p);
 	
 	return(last_color);
 }
+
+/*
+void			wave(t_cross *intersect)
+{
+	float stripes = 80;
+	float waves = 120;
+	float wobble = 0.5f * sin(intersect.y * stripes * M_PI * 2.0f + cos(intersect.x * M_PI * 2.0f * waves));
+	float result = wobble + dot((float3){1.f, 1.f, 1.f}, (float3){0.213f, 0.715f, 0.072f} * normalize((float3){r, g, b}));
+	pixel[id] = RGBtoUint((float3){r, g, b} * result);	
+
+}*/
+
 
 t_color			set_color_cartoon(t_color color, double light)
 {
@@ -166,15 +185,6 @@ t_color			set_color_cartoon(t_color color, double light)
 }
 
 
-/*
-void			wave(t_color *v, t_rtv *p)
-{
-
-	v.red = sin(p * p->pos.x);
-	v.green = 0;
-	v->blue = 0;
-	p->nor = v3add(p->nor, v);
-}*/
 
 	//else if (p->object[intersect->id]->texture == NO_TEXTURE )
 	//	return (color(&p->object[intersect->id]->color, shade));

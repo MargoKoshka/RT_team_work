@@ -42,7 +42,8 @@ SRC_LIST = main.c \
 			ft_standard_methods.c ft_window_menu.c \
 			ft_solve_quadratic_equation.c \
 			textures.c \
-			texture_generate.c
+			texture_generate.c \
+			get_color.c
 
 SRC = $(notdir $(SRC_LIST))
 # SRC = $(addprefix $(SRC_DIR), $(SRC_LIST))

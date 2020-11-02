@@ -147,8 +147,8 @@ t_color ft_map_texture_sphere(t_object *object, t_vector point)
 		color = object->color;
 	}
 	return(color);
-}*/
-
+}
+*/
 
 t_color ft_map_texture_plane(t_object *object, t_vector point)
 {
@@ -206,11 +206,11 @@ return(color);
 t_color ft_get_texture_color(t_object *object, t_vector point)
 {
 t_color color;
-//if ((object->type == 1)|| (object->type == 4))
-color = ft_map_texture_sphere(object, point);
-////if (object->type == 2)
-//color = ft_map_texture_plane(object, point);
-//if (object->type == 3) 
-//color = ft_map_texture_cylindr(object, point);
+if ((object->type == e_sphere)|| (object->type == e_cone))
+	color = ft_map_texture_sphere(object, point);
+if (object->type == e_plane)
+	color = ft_map_texture_plane(object, point);
+if (object->type == e_cylindr) 
+	color = ft_map_texture_cylindr(object, point);
 return (color);
 }

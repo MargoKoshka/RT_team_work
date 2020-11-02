@@ -115,7 +115,11 @@ typedef struct		s_material
 enum				e_texture {
 	NO_TEXTURE,
 	EARTH,
-	CHESS
+	CHESS,
+	BLUR,
+	GRASS,
+	WOOD,
+	PERLIN
 };
 
 /*
@@ -142,7 +146,23 @@ typedef struct s_textura
 
 ////////////////////////////////////////////
 
-
+typedef struct	s_noise
+{
+	int 		tab[512];
+	int			i;
+	int 		cx;
+	int 		cy;
+	int 		cz;
+	double 		u;
+	double 		v;
+	double 		w;
+	int 		a;
+	int 		b;
+	int 		aa;
+	int 		ab;
+	int 		bb;
+	int 		ba;
+}				t_noise;
 
 //////////////////////////////////
 
@@ -185,7 +205,7 @@ typedef struct		s_object
 	//int				**texture_tab;
 	//int				col;
 	t_textura       textura;
-	double			mat[3][3];
+	int				*perlin_tab;
 	//t_mapping       map;
 	//t_file_texture	file_height;
 	/* t_material		material;

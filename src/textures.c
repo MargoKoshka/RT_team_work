@@ -46,7 +46,16 @@ int		**color_tab(int *imgstr, int size, int size1)
 	return (color_tab);
 }
 */
-int		load_texture(t_rtv *p,t_object *obj)
+int		load_texture_blur(t_rtv *p,t_object *obj)
+{
+	obj->textura.name = "xpm/blur.xpm";
+	obj->textura.image = mlx_xpm_file_to_image(p->mlx_ptr, obj->textura.name, &obj->textura.width, &obj->textura.height);
+	obj->textura.data = mlx_get_data_addr(obj->textura.image, &obj->textura.bpp, &obj->textura.size_line, &obj->textura.endian);
+	//obj->textura.tab = color_tab(obj->textura.data, obj->textura.width,obj->textura.height );
+	return (1);
+}
+
+int		load_texture_earth(t_rtv *p,t_object *obj)
 {
 	obj->textura.name = "xpm/earth.xpm";
 	obj->textura.image = mlx_xpm_file_to_image(p->mlx_ptr, obj->textura.name, &obj->textura.width, &obj->textura.height);
@@ -55,6 +64,23 @@ int		load_texture(t_rtv *p,t_object *obj)
 	return (1);
 }
 
+int		load_texture_grass(t_rtv *p,t_object *obj)
+{
+	obj->textura.name = "xpm/Grass.xpm";
+	obj->textura.image = mlx_xpm_file_to_image(p->mlx_ptr, obj->textura.name, &obj->textura.width, &obj->textura.height);
+	obj->textura.data = mlx_get_data_addr(obj->textura.image, &obj->textura.bpp, &obj->textura.size_line, &obj->textura.endian);
+	//obj->textura.tab = color_tab(obj->textura.data, obj->textura.width,obj->textura.height );
+	return (1);
+}
+
+int		load_texture_wood(t_rtv *p,t_object *obj)
+{
+	obj->textura.name = "xpm/wood.xpm";
+	obj->textura.image = mlx_xpm_file_to_image(p->mlx_ptr, obj->textura.name, &obj->textura.width, &obj->textura.height);
+	obj->textura.data = mlx_get_data_addr(obj->textura.image, &obj->textura.bpp, &obj->textura.size_line, &obj->textura.endian);
+	//obj->textura.tab = color_tab(obj->textura.data, obj->textura.width,obj->textura.height );
+	return (1);
+}
 ///////////////////////////////////////////////////
 
 t_vector	vec_normalize(t_vector v)
@@ -69,7 +95,7 @@ t_vector	vec_normalize(t_vector v)
 	return (norm);
 }
 
-void	get_tex_coord(t_object *object, int *column, int *row, t_cross *intersect)
+void	get_tex_coord_sphere(t_object *object, int *column, int *row, t_cross *intersect)
 {
 	float theta;
 	float u;
@@ -84,9 +110,32 @@ void	get_tex_coord(t_object *object, int *column, int *row, t_cross *intersect)
 	theta = atan2(npoint.x, npoint.z);
 	u = 0.5 + atan2(npoint.z, npoint.x) / M_PI * 0.5; //1 - (theta / (2 * M_PI) + 0.5);
 	v = 0.5 - asin(npoint.y) / M_PI;
+
 	*column = (int)(object->textura.width * u);
 	*row = (int)(object->textura.height * v);
 }
+
+
+void	get_tex_coord_plane(t_object *object, int *column, int *row, t_cross *intersect)
+{
+	float u;
+	float v;
+	t_vector r;
+
+	r = ft_sub_vectors(&object->pos, &intersect->vec3);
+	//vector_matrix_multiply(shape->rotation, &r);
+	u = r.x * 100; // 2.0;
+	v = r.z * 100;// 2.0;
+	 
+	if (u < 0.0f)
+		u *= -1.0f;
+	if (v < 0.0f)
+		v *= -1.0f;
+//printf("u: %f, v: %f\n", u, v);
+	*column = (int)u;//(object->textura.width * u);
+	*row = (int)v;//(object->textura.height * v);
+}
+
 
 /*
 t_vector	ft_vec3(float x, float y, float z)
@@ -160,8 +209,28 @@ void	get_tex_coord(t_object *object, int *column, int *row, t_cross *intersect)
 	//printf("column: %d, row: %d\n", *column, *row);
 }*/
 
+void	get_tex_coord_cone(t_object *object, int *column, int *row, t_cross *intersect)
+{
+	float u;
+	float v;
+	t_vector r;
 
-t_color	get_color(t_object *object, t_cross *intersect)
+	r = ft_sub_vectors(&object->pos, &intersect->vec3);
+	//vector_matrix_multiply(shape->rotation, &r);
+	u = r.x * 300; // 2.0;
+	v = r.z * 300;// 2.0;
+	 
+	if (u < 0.0f)
+		u *= -1.0f;
+	if (v < 0.0f)
+		v *= -1.0f;
+//printf("u: %f, v: %f\n", u, v);
+	*column = (int)u;//(object->textura.width * u);
+	*row = (int)v;//(object->textura.height * v);
+}
+
+
+t_color	get_color_cone(t_object *object, t_cross *intersect)
 {
 	int		i;
 	int		column;
@@ -172,18 +241,115 @@ t_color	get_color(t_object *object, t_cross *intersect)
 	i = 0;
 	column = 0;
 	row = 0;
-	get_tex_coord(object, &column, &row, intersect);
+	get_tex_coord_cone(object, &column, &row, intersect);
 	i = row * object->textura.size_line + object->textura.bpp / 8 * column;
 	//printf("%d\n", i);
 	color.blue = (int)(unsigned char)object->textura.data[i];//(int)(unsigned char)object->textura.data[i] / 255;
 	color.green = (int)(unsigned char)object->textura.data[i + 1];//(int)(unsigned char)object->textura.data[i + 1] / 255;
 	color.red = (int)(unsigned char)object->textura.data[i + 2];//(int)(unsigned char)object->textura.data[i + 2] / 255;
-	
+
+	return (color);
+}
+
+
+t_color	get_color_plane(t_object *object, t_cross *intersect)
+{
+	int		i;
+	int		column;
+	int		row;
+	t_color	color;
+
+
+	i = 0;
+	column = 0;
+	row = 0;
+	get_tex_coord_plane(object, &column, &row, intersect);
+	i = row * object->textura.size_line + object->textura.bpp / 8 * column;
+	//printf("%d\n", i);
+	color.blue = (int)(unsigned char)object->textura.data[i];//(int)(unsigned char)object->textura.data[i] / 255;
+	color.green = (int)(unsigned char)object->textura.data[i + 1];//(int)(unsigned char)object->textura.data[i + 1] / 255;
+	color.red = (int)(unsigned char)object->textura.data[i + 2];//(int)(unsigned char)object->textura.data[i + 2] / 255;
+
+	return (color);
+}
+
+t_color	get_color_sphere(t_object *object, t_cross *intersect)
+{
+	int		i;
+	int		column;
+	int		row;
+	t_color	color;
+
+
+	i = 0;
+	column = 0;
+	row = 0;
+	get_tex_coord_sphere(object, &column, &row, intersect);
+	i = row * object->textura.size_line + object->textura.bpp / 8 * column;
+	//printf("%d\n", i);
+	color.blue = (int)(unsigned char)object->textura.data[i];//(int)(unsigned char)object->textura.data[i] / 255;
+	color.green = (int)(unsigned char)object->textura.data[i + 1];//(int)(unsigned char)object->textura.data[i + 1] / 255;
+	color.red = (int)(unsigned char)object->textura.data[i + 2];//(int)(unsigned char)object->textura.data[i + 2] / 255;
+
 	return (color);
 }
 /////////////////////////////
 
+void	get_tex_coord_cylindr(t_object *object, int *column, int *row, t_cross *intersect)
+{
+	float theta;
+	float u;
+	float v;
+	t_vector npoint;
+	t_vector tpoint;
 
+	tpoint = ft_sub_vectors(&object->pos, &intersect->vec3);
+	npoint = ft_multkv(1 / ft_lengthv(tpoint), tpoint) ;
+
+
+	theta = atan2(npoint.x, npoint.z);
+	u = 0.5 + atan2(npoint.z, npoint.x) / M_PI * 0.5; //1 - (theta / (2 * M_PI) + 0.5);
+	v = 0.5 - asin(npoint.y) / M_PI;
+
+	*column = (int)(object->textura.width * u);
+	*row = (int)(object->textura.height * v);
+}
+
+
+t_color	get_color_cylindr(t_object *object, t_cross *intersect)
+{
+	int		i;
+	int		column;
+	int		row;
+	t_color	color;
+
+
+	i = 0;
+	column = 0;
+	row = 0;
+	get_tex_coord_cylindr(object, &column, &row, intersect);
+	i = row * object->textura.size_line + object->textura.bpp / 8 * column;
+	//printf("%d\n", i);
+	color.blue = (int)(unsigned char)object->textura.data[i];//(int)(unsigned char)object->textura.data[i] / 255;
+	color.green = (int)(unsigned char)object->textura.data[i + 1];//(int)(unsigned char)object->textura.data[i + 1] / 255;
+	color.red = (int)(unsigned char)object->textura.data[i + 2];//(int)(unsigned char)object->textura.data[i + 2] / 255;
+
+	return (color);
+}
+
+t_color	get_color(t_object *object, t_cross *intersect)
+{
+t_color color;
+if (object->type == e_sphere)
+	color = get_color_sphere(object, intersect);
+if (object->type == e_plane)
+    color = get_color_plane(object, intersect);
+if (object->type == e_cone)
+	color = get_color_cone(object, intersect);
+if (object->type == e_cylindr) 
+	color = get_color_cylindr(object, intersect);
+return (color);
+}
 
 /////////////////////////////
 t_color int_to_rgb(int p)
@@ -192,7 +358,7 @@ t_color int_to_rgb(int p)
 
 	c.red = (p >> 16) & 0xFF;
 	c.green = (p >> 8) & 0xFF;
-	c.blue = (p >> 16) & 0xFF;
+	c.blue = (p) & 0xFF;
 	return(c);
 }
 
@@ -201,7 +367,7 @@ void	anaglyph(t_rtv *scene, int p1, int p2, int p)
 	t_color c1;
 	t_color c2;
 	t_color c;
-	
+
 	c1 = int_to_rgb(scene->draw[p1]);
 	c2 = int_to_rgb(scene->draw[p2]);
 	c = int_to_rgb(scene->draw[p]);
@@ -258,7 +424,7 @@ void motion_bluer(t_rtv *scene)
 		j++;
 	}
 	mlx_put_image_to_window(scene->mlx_ptr, scene->win_ptr, scene->filtered_img, 0, 0);
-} 
+}
 
 void color_to_anaglyph(t_rtv *scene)
 {
@@ -288,7 +454,7 @@ void color_to_anaglyph(t_rtv *scene)
 		j++;
 	}
 	mlx_put_image_to_window(scene->mlx_ptr, scene->win_ptr, scene->filtered_img, 0, 0);
-} 
+}
 
 
 /*

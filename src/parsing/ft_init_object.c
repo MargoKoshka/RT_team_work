@@ -31,6 +31,9 @@ void	init_cone(t_rtv *p, char **tab, int *i)
 	p->object[*i]->refraction = ft_atof(tab[8]);
 	p->object[*i]->min = ft_atof(tab[9]);
 	p->object[*i]->max = ft_atof(tab[10]);
+	p->object[*i]->texture = NO_TEXTURE;
+	load_texture_wood(p ,p->object[*i]);
+	//load_texture(p ,p->object[*i]);
 	/*if (ft_strcmp(tab[11],  "EARTH") == 0)
 		p->object[*i]->texture = EARTH;
 	else
@@ -64,6 +67,8 @@ void	init_cylindr(t_rtv *p, char **tab, int *i)
 	p->object[*i]->refraction = ft_atof(tab[8]);
 	p->object[*i]->min = ft_atof(tab[9]);
 	p->object[*i]->max = ft_atof(tab[10]);
+	p->object[*i]->texture = NO_TEXTURE;
+	load_texture_blur(p ,p->object[*i]);
 	/*if (ft_strcmp(tab[11], "EARTH") == 0)
 		p->object[*i]->texture = EARTH;
 	else
@@ -97,7 +102,7 @@ void	init_plane(t_rtv *p, char **tab, int *i)
 	p->object[*i]->min = ft_atof(tab[8]);
 	p->object[*i]->max = ft_atof(tab[9]);
 	p->object[*i]->texture = NO_TEXTURE;
-	load_texture(p ,p->object[*i]);
+	load_texture_grass(p ,p->object[*i]);
 	//if (ft_strcmp(tab[10], "EARTH") == 0)
 	//{
 	//p->object[*i]->texture = EARTH;
@@ -145,8 +150,9 @@ void	init_sphere(t_rtv *p, char **tab, int *i)
 		p->object[*i]->min = ft_atof(tab[7 + shift]);
 	//p->object[*i]->txt_size = 12;
 	//if (ft_strcmp(tab[11],  "EARTH") == 0)
-	p->object[*i]->texture = NO_TEXTURE;
-	//load_texture(p ,p->object[*i]);
+	p->object[*i]->texture = PERLIN;
+	p->object[*i]->perlin_tab = create_perlinmap();
+	//load_texture_earth(p ,p->object[*i]);
 	//else
 	//	p->object[*i]->texture = NO_TEXTURE; 
 	*i += 1;
