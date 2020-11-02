@@ -31,7 +31,7 @@ void	init_cone(t_rtv *p, char **tab, int *i)
 	p->object[*i]->refraction = ft_atof(tab[8]);
 	p->object[*i]->min = ft_atof(tab[9]);
 	p->object[*i]->max = ft_atof(tab[10]);
-	p->object[*i]->texture = NO_TEXTURE;
+	p->object[*i]->texture = WOOD;
 	load_texture_wood(p ,p->object[*i]);
 	//load_texture(p ,p->object[*i]);
 	/*if (ft_strcmp(tab[11],  "EARTH") == 0)

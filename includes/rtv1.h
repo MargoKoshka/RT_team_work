@@ -251,4 +251,8 @@ int		*create_perlinmap(void);
 t_color		makenoise_perlin(t_cross *intersect, int *perlin_tab,t_color *hit);
 t_color		makenoise_marble(t_cross *intersect, int *perlin_tab,t_color *hit);
 
+
+t_color			wave(double x, double y, t_color color);
+void			recalculate_values(double *x, double *y);
+
 #endif

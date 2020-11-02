@@ -124,8 +124,8 @@ int			ft_local_color(t_rtv *p, t_cross *intersect, t_vector *norm)
 	double		shade;
 	t_color c; 
 	int last_color = 0;
-//if	(p->filter == 'X')
-	//	wave(intersect);
+	if	(p->filter == 'X')
+		recalculate_values(&intersect->vec3.x, &intersect->vec3.y);
 	shade = ft_calculate_lighting(p, intersect, norm);
 	if ( p->object[intersect->id]->texture == CHESS)
 	{
@@ -156,22 +156,60 @@ int			ft_local_color(t_rtv *p, t_cross *intersect, t_vector *norm)
 	
 	if	(p->filter == 'O')
 		last_color =  sepia(last_color);
-	//if	(p->filter == 'X')
-	//	last_color = wave(last_color,p);
+	/*if	(p->filter == 'X')
+	{
+		c = wave(intersect->vec3.x, intersect->vec3.y, p->object[intersect->id]->color);
+		last_color = color(&c, shade);
+	}*/
 	
 	return(last_color);
 }
 
-/*
-void			wave(t_cross *intersect)
+void			recalculate_values(double *x, double *y)
 {
-	float stripes = 80;
-	float waves = 120;
-	float wobble = 0.5f * sin(intersect.y * stripes * M_PI * 2.0f + cos(intersect.x * M_PI * 2.0f * waves));
-	float result = wobble + dot((float3){1.f, 1.f, 1.f}, (float3){0.213f, 0.715f, 0.072f} * normalize((float3){r, g, b}));
-	pixel[id] = RGBtoUint((float3){r, g, b} * result);	
-
+	*x = *x / 960 + sin(6.2831853071);
+	*y = *y / 960 + cos(6.2831853071);
+}
+/*
+t_color			wave(double x, double y, t_color color)
+{
+	recalculate_values(&x, &y);
+	x *= (double)960 / 960;
+	x += sin(y * 3.) / 10.;
+	y += sin(x * 4.) / 5.;
+	if (fmod(y + y, .2) <= 0.1)
+	{
+		color.blue= (int)(color.blue);
+		color.green = (int) (color.green * 0.75);
+		color.red = (int)color.red  ;
+	}
+	else
+	{
+		color.blue= (int)(color.blue * 0.87);
+		color.green = (int) (color.green);
+		color.red = (int)color.red  ;
+	}
+	
+	return (color);
 }*/
+
+
+
+/*
+t_channel			wave(t_vec p)
+{
+	float		u;
+	double		v;
+	t_channel	color;
+
+	u = floor(sin(p.x)) + floor(sin(p.y)) + floor(sin(p.z));
+	u = modf(u * 0.5, &v);
+	u = u * 3;
+	color = (t_channel){((int)u >> 16) & 0xFF, ((int)u >> 16) & 0xFF,
+						(((int)u >> 16) & 0xFF)};
+	return (color);
+}
+*/
 
 
 t_color			set_color_cartoon(t_color color, double light)

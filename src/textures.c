@@ -209,8 +209,16 @@ void	get_tex_coord(t_object *object, int *column, int *row, t_cross *intersect)
 	//printf("column: %d, row: %d\n", *column, *row);
 }*/
 
+double	ft_flabs(float nb)
+{
+	if (nb < 0)
+		return (-nb);
+	return (nb);
+}
+
 void	get_tex_coord_cone(t_object *object, int *column, int *row, t_cross *intersect)
 {
+
 	float u;
 	float v;
 	t_vector r;
