@@ -101,8 +101,9 @@ void	init_plane(t_rtv *p, char **tab, int *i)
 	p->object[*i]->refraction = ft_atof(tab[7]);
 	p->object[*i]->min = ft_atof(tab[8]);
 	p->object[*i]->max = ft_atof(tab[9]);
-	p->object[*i]->texture = NO_TEXTURE;
-	load_texture_grass(p ,p->object[*i]);
+	p->object[*i]->texture = MARBLE;
+	p->object[*i]->perlin_tab = create_perlinmap();
+	//load_texture_grass(p ,p->object[*i]);
 	//if (ft_strcmp(tab[10], "EARTH") == 0)
 	//{
 	//p->object[*i]->texture = EARTH;

@@ -119,7 +119,8 @@ enum				e_texture {
 	BLUR,
 	GRASS,
 	WOOD,
-	PERLIN
+	PERLIN,
+	MARBLE
 };
 
 /*

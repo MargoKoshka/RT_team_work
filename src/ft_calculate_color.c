@@ -147,6 +147,11 @@ int			ft_local_color(t_rtv *p, t_cross *intersect, t_vector *norm)
 		c = makenoise_perlin(intersect, p->object[intersect->id]->perlin_tab, &p->object[intersect->id]->color);
 		last_color = color(&c, shade);
 	}
+	else if (p->object[intersect->id]->texture == MARBLE)
+	{
+		c = makenoise_marble(intersect, p->object[intersect->id]->perlin_tab, &p->object[intersect->id]->color);
+		last_color = color(&c, shade);
+	}
 		//last_color = color(&p->object[intersect->id]->color, shade);
 	
 	if	(p->filter == 'O')

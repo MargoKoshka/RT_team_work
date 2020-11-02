@@ -249,6 +249,6 @@ void	get_tex_coord_cone(t_object *object, int *column, int *row, t_cross *inters
 t_color	get_color_cone(t_object *object, t_cross *intersect);
 int		*create_perlinmap(void);
 t_color		makenoise_perlin(t_cross *intersect, int *perlin_tab,t_color *hit);
-
+t_color		makenoise_marble(t_cross *intersect, int *perlin_tab,t_color *hit);
 
 #endif
