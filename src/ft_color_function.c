@@ -1,4 +1,16 @@
-#include "rtv1.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_color_function.c                                :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msole <msole@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/07 10:31:58 by msole             #+#    #+#             */
+/*   Updated: 2020/11/07 10:31:59 by msole            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "rt.h"
 
 int			color(t_color *color, float percent)
 {
@@ -53,56 +65,9 @@ t_vector	ft_reflection_ray(t_vector *ray, t_vector *norm)
 	t_vector	reflection_ray;
 
 	reflection_ray = (t_vector){ray->x, ray->y, ray->z};
-	// ft_unit_vector(&reflection_ray);
 	reflection_ray =
 		ft_multiply_vector_num(norm, 2 * ft_vector_scalar(norm, ray));
 	reflection_ray = ft_sub_vectors(ray, &reflection_ray);
 	ft_unit_vector(&reflection_ray);
 	return (reflection_ray);
-}
-
-// int		add_colors(int color1, int color2)
-// {
-// 	int red;
-// 	int green;
-// 	int blue;
-
-// 	red = ((color1 >> 16) & 0xFF) + ((color2 >> 16) & 0xFF);
-// 	green = ((color1 >> 8) & 0xFF) + ((color2 >> 8) & 0xFF);
-// 	blue = (color1 & 0xFF) + (color2 & 0xFF);
-// 	return (((int)red << 16) | ((int)green << 8) | (int)blue);
-// }
-
-// int		avg_color(int color1, int num)
-// {
-// 	int red;
-// 	int green;
-// 	int blue;
-
-// 	red = ((color1 >> 16) & 0xFF) / (float)num;
-// 	green = ((color1 >> 8) & 0xFF) / (float)num;
-// 	blue = (color1 & 0xFF) / (float)num;
-// 	return (((int)red << 16) | ((int)green << 8) | (int)blue);
-// }
-
-t_color		color_2(t_color *color, float percent)
-{
-	t_color	new_color;
-
-	if (percent > 1)
-		percent = 1.0;
-	new_color.red = (int)(color->red * percent);
-	new_color.green = (int)(color->green * percent);
-	new_color.blue = (int)(color->blue * percent);
-	return (new_color);
-}
-
-t_color		add_color_2(t_color *color1, t_color *color2)
-{
-	t_color	new_color;
-
-	new_color.red = color1->red + color2->red;
-	new_color.green = color1->green + color2->green;
-	new_color.blue = color1->blue + color2->blue;
-	return (new_color);
 }

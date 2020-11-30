@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   structure.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msole <msole@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/07 10:06:44 by msole             #+#    #+#             */
+/*   Updated: 2020/11/07 10:06:45 by msole            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef STRUCTURE_H
 # define STRUCTURE_H
 
@@ -7,6 +19,19 @@ typedef enum
 {
 	e_pull,
 	e_push,
+	e_caps,
+	e_body
+}	t_name;
+
+typedef enum
+{
+	e_ambient,
+	e_point,
+	e_direct,
+}	t_lights_names;
+
+typedef enum
+{
 	e_sphere,
 	e_plane,
 	e_cylindr,
@@ -14,12 +39,35 @@ typedef enum
 	e_cone,
 	e_hemisphere,
 	e_ring,
-	e_ambient,
-	e_point,
-	e_direct,
-	e_caps,
-	e_body
-}	t_name;
+	e_paraboloid,
+}	t_objects_name;
+
+typedef enum
+{
+	e_no_effect,
+	e_sepia,
+	e_cartoon,
+	e_sereoscopia,
+	e_anaglyph,
+	e_motion_bler,
+	e_wave
+}	t_visual_effects;
+
+/*
+**The structure OBJECT
+*/
+typedef enum
+{
+	NO_TEXTURE,
+	EARTH,
+	CHESS,
+	BRICS,
+	BLUR,
+	GRASS,
+	MARBLE,
+	PERLIN,
+	RAINBOW
+}	t_texture;
 
 typedef struct		s_color
 {
@@ -27,6 +75,12 @@ typedef struct		s_color
 	int				green;
 	int				blue;
 }					t_color;
+
+typedef struct		s_uv
+{
+	double			u;
+	double			v;
+}					t_uv;
 
 /*
 **The vector structure
@@ -52,26 +106,17 @@ typedef struct		s_camera
 	t_vector		pos;
 }					t_camera;
 
-////////
-typedef struct		s_float3
-{
-	float			x;
-	float			y;
-	float			z;
-}					t_float3;
-	
-///////
 /*
 **The light structure
 */
 
 typedef struct		s_light
 {
-	int				tip;
+	int				type;
 	t_vector		pos;
+	t_vector		direction;
 	double			intensity;
 	t_color			color;
-	struct s_light	*next;
 }					t_light;
 
 /*
@@ -98,7 +143,7 @@ typedef struct		s_discr
 
 typedef struct		s_material
 {
-	int				tip;
+	int				type;
 	t_color			color;
 	double			k_ambient;
 	double			k_diffuse;
@@ -106,82 +151,46 @@ typedef struct		s_material
 	int				specular;
 	double			reflection;
 	double			refraction;
-	// struct s_light	*next;
 }					t_material;
 
-/*
-**The structure OBJECT
-*/
-enum				e_texture {
-	NO_TEXTURE,
-	EARTH,
-	CHESS,
-	BLUR,
-	GRASS,
-	WOOD,
-	PERLIN,
-	MARBLE
-};
-
-/*
-typedef struct		s_file_texture
+typedef struct		s_textura
 {
-	int				*size;
-	int				**tab;
-}					t_file_texture;
-*/
-typedef struct s_textura 
-{
-	void			*image;   // *ptr
-	char			*name;   // *path
-	char		*data; // int *data
-	int				bpp; //bits_per_pixel
+	void			*image;
+	char			*name;
+	char			*data;
+	int				bpp;
 	int				size_line;
 	int				endian;
 	int				width;
 	int				height;
-	/////
-	//double			scale;
-	int 			*tab;
-}				t_textura;
+	int				*tab;
+}					t_textura;
 
-////////////////////////////////////////////
-
-typedef struct	s_noise
+typedef struct		s_noise
 {
-	int 		tab[512];
-	int			i;
-	int 		cx;
-	int 		cy;
-	int 		cz;
-	double 		u;
-	double 		v;
-	double 		w;
-	int 		a;
-	int 		b;
-	int 		aa;
-	int 		ab;
-	int 		bb;
-	int 		ba;
-}				t_noise;
-
-//////////////////////////////////
-
-/*typedef struct		s_mapping
-{
-	void			*ptr;
-	t_color			*img;
-	int				x;
-	int				y;
-}					t_mapping;
-
+	int				tab[512];
+	int				i;
+	int				cx;
+	int				cy;
+	int				cz;
+	double			u;
+	double			v;
+	double			w;
+	int				a;
+	int				b;
+	int				aa;
+	int				ab;
+	int				bb;
+	int				ba;
+}					t_noise;
+/*
+**The structure OBJECT
 */
 
 typedef struct		s_object
 {
 	int				type;
 	t_vector		pos;
-	// t_vector		pos_start;
 	t_vector		axis;
 	t_vector		angle_n;
 	t_discr			discr;
@@ -198,21 +207,10 @@ typedef struct		s_object
 	int				check;
 	int				specular;
 	t_color			color;
-	unsigned char		*disp_color;
-	enum e_texture	texture;
-	//unsigned int	txt_size;
-	//t_file_texture	file_txt;
-	//int				*texture_size;
-	//int				**texture_tab;
-	//int				col;
-	t_textura       textura;
+	t_texture		texture;
+	double			k_paraboloid;
+	t_textura		textura;
 	int				*perlin_tab;
-	//t_mapping       map;
-	//t_file_texture	file_height;
-	/* t_material		material;
-	t_file_texture	file_txt;
-	//t_file_texture	file_txt;*/
-
 }					t_object;
 
 typedef struct		s_rtv
@@ -229,11 +227,15 @@ typedef struct		s_rtv
 	int				endian;
 	int				width;
 	int				height;
-	// int				num;
 	char			*name_file;
+	char			*name_screen;
+	char			**scenes;
+	int				scene_num;
+	int				current_scene;
 	t_object		**object;
 	t_camera		*camera;
 	t_light			*light;
+	t_light			**lights;
 	double			x0;
 	double			y0;
 	double			fov;
@@ -243,33 +245,25 @@ typedef struct		s_rtv
 	int				window_menu;
 	int				depth_mirror;
 	int				depth_refract;
-	int				aliasing;
 	int				samples;
-	
-	/////////////
+	int				selected_obj;
+	int				n_lights;
+	int				current_light;
+	int				n_objects;
+	int				current_object;
+	int				visual_effect;
 	int				*filtered_data;
 	void			*filtered_img;
-	//////
-	t_vector				p;
-	int				color_schema; // 0 - standart; 1 - sepia;
-	float				k;
 	char			filter;
-
-	
 }					t_rtv;
 
 typedef struct		s_data
 {
 	t_rtv			*all;
-	// t_camera		camera;
-	// t_vector		ray;
 	int				width;
-	// int				height;
 	int				y_start;
 	int				y_end;
 	int				x;
-	// double			x0;
-	// double			y0;
 }					t_data;
 
 typedef struct		s_array
@@ -281,8 +275,6 @@ typedef struct		s_array
 
 typedef struct		s_cross
 {
-	// double		d_1;
-	// double		d_2;
 	double			len;
 	int				id;
 	int				check;
@@ -298,12 +290,6 @@ typedef struct		s_start
 	int				depth;
 	int				color;
 }					t_start;
-
-typedef struct		s_2vector
-{
-	t_vector		ray;
-	t_vector		normal;
-}					t_2vector;
 
 typedef struct		s_matrix
 {

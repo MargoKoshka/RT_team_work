@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   key_macos.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: wrhett <wrhett@student.21-school.ru>       +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/04 19:27:24 by wrhett            #+#    #+#             */
+/*   Updated: 2020/11/04 19:27:25 by wrhett           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef KEY_MACOS_H
 # define KEY_MACOS_H
 
@@ -85,7 +97,5 @@
 # define MOUSE_SCROLL	3
 # define MOUSE_UP		4
 # define MOUSE_DOWN		5
-# define KEY_ANSI_S		(0X01)
-
 
 #endif

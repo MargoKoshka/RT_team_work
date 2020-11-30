@@ -1,4 +1,16 @@
-#include "rtv1.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_raytrace_ring.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msole <msole@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/07 10:30:10 by msole             #+#    #+#             */
+/*   Updated: 2020/11/07 10:30:11 by msole            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "rt.h"
 
 double	calc_angle(t_vector *pos, t_vector *axis, t_vector *intersect,
 					double min)
@@ -78,49 +90,3 @@ t_cross	ft_intersect_ray_ring(t_object *ring, t_vector *ray)
 		result.id = INTERSECT;
 	return (result);
 }
-
-// double		ft_intersect_ray_hemisphere(t_vector *ray, t_object *sphere)
-// {
-// 	double		proection_ray;
-// 	double		len_dir;
-// 	double		len;
-// 	double		check;
-// 	double		len_plane;
-
-// 	proection_ray = ft_vector_projection_on_ray(&sphere->pos, ray);
-// 	len = sphere->radius * sphere->radius - sphere->len_pos * sphere->len_pos +
-// 			proection_ray * proection_ray;
-// 	if (len < 0)
-// 		return (NO_INTERSECT);
-// 	len_dir = proection_ray - sqrt(len);
-// 	check = check_intersect(ray, &sphere->pos, &sphere->axis, len_dir);
-// 	if (check <= sphere->min)
-// 		return (len_dir);
-// 	len_dir = proection_ray + sqrt(len);
-// 	check = check_intersect(ray, &sphere->pos, &sphere->axis, len_dir);
-// 	if (check <= sphere->min)
-// 	{
-// 		len_plane = calculate_len_plane(ray, sphere);
-// 		return (len_plane);
-// 	}
-// 	return (NO_INTERSECT);
-// }
-
-/* typedef float float4 __attribute__((ext_vector_type(4)));
-
-float dot(float4 a, float4 b) {
-	float4 c = a * 0.5 + b;
-	float4 basis[3];
-	basis[0].x = 1.f;
-	return ((c + a + b).x);
-}
-
-float length(float4 v) {
-	return (sqrtf(
-		v.x * v.x + v.y * v.y + v.z * v.z
-	));
-}
-
-float4 normalize(float4 v) {
-	return (v / length(v));
-} */

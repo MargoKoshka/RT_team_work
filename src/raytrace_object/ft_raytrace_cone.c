@@ -1,4 +1,16 @@
-#include "rtv1.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_raytrace_cone.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msole <msole@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/07 10:29:46 by msole             #+#    #+#             */
+/*   Updated: 2020/11/07 10:29:47 by msole            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "rt.h"
 
 static void	calculate_a_b_c_discr_cone(t_vector *ray, t_object *cone)
 {
@@ -10,7 +22,8 @@ static void	calculate_a_b_c_discr_cone(t_vector *ray, t_object *cone)
 	ray_norm = ft_vector_scalar(ray, &cone->axis);
 	ray_pos = ft_vector_scalar(ray, &cone->pos);
 	cone->discr.a = ray_ray - cone->discr.k_tan * (ray_norm * ray_norm);
-	cone->discr.b = 2 * (cone->discr.k_tan * ray_norm * cone->discr.pos_n_p - ray_pos);
+	cone->discr.b = 2 * (cone->discr.k_tan * ray_norm *\
+	cone->discr.pos_n_p - ray_pos);
 	cone->discr.c = cone->discr.c;
 }
 
@@ -55,15 +68,15 @@ t_cross		calculate_distance_to_cone_caps(t_object *object, t_vector *ray)
 	else if (angle < 0)
 		position = ft_multiply_vector_num(&object->axis, object->max);
 	position = ft_add_vectors(&object->pos, &position);
-	distance = ft_vector_scalar(&position, &object->axis) / angle; // растояние до caps от камеры
+	distance = ft_vector_scalar(&position, &object->axis) / angle;
 	delta = ft_multiply_vector_num(ray, distance);
-	delta = ft_sub_vectors(&delta, &position); // вектор от центра крышки до пересечения с ней
+	delta = ft_sub_vectors(&delta, &position);
 	result.id = NO_INTERSECT;
-	// if (angle > 0 && ft_vector_scalar(&delta, &delta) < (object->r_min * object->r_min))
-	if (angle > 0 && object->r_min * object->r_min - ft_vector_scalar(&delta, &delta) > 0.001)
+	if (angle > 0 && object->r_min *\
+	object->r_min - ft_vector_scalar(&delta, &delta) > 0.001)
 		return (result_data_input(distance, e_caps));
-	// if (angle < 0 && ft_vector_scalar(&delta, &delta) < (object->r_max * object->r_max))
-	if (angle < 0 && object->r_max * object->r_max - ft_vector_scalar(&delta, &delta) > 0.001)
+	if (angle < 0 && object->r_max * object->r_max\
+	- ft_vector_scalar(&delta, &delta) > 0.001)
 		return (result_data_input(distance, e_caps));
 	return (result);
 }
@@ -95,54 +108,3 @@ t_cross		ft_intersect_ray_cone(t_object *cone, t_vector *ray)
 	}
 	return (result);
 }
-
-/*
-// double		calculate_distance_to_cone_caps(t_object *object, t_vector *ray)
-t_cross		calculate_distance_to_cone_caps(t_object *object, t_vector *ray)
-// void		calculate_distance_to_cone_caps(t_object *object, t_vector *ray, t_cross *result)
-{
-	t_cross		result;
-	t_vector	position;
-	t_vector	delta;
-	double		angle;
-	double		distance;
-
-	angle = ft_vector_scalar(ray, &object->axis);
-	if (angle > 0)
-		position = ft_multiply_vector_num(&object->axis, object->min);
-	else if (angle < 0)
-		position = ft_multiply_vector_num(&object->axis, object->max);
-	position = ft_add_vectors(&object->pos, &position);
-	// растояние до плоскости крышки от камеры
-	distance = ft_vector_scalar(&position, &object->axis) / angle;
-	// вектор от центра крышки до пересечения с ней
-	delta = ft_multiply_vector_num(ray, distance);
-	delta= ft_sub_vectors(&delta, &position);
-	
-	result.id = NO_INTERSECT;
-	if (angle > 0 && ft_vector_scalar(&delta, &delta) <= (object->r_min * object->r_min))
-	{
-		result = result_data_input(distance, e_caps);
-		return (result);
-
-		// result->id = INTERSECT;
-		// result->len = distance;
-		// result->check = e_caps;
-
-		// return (distance);
-	}
-	if (angle < 0 && ft_vector_scalar(&delta, &delta) <= (object->r_max * object->r_max))
-	{
-		result = result_data_input(distance, e_caps);
-		return (result);
-
-		// result->id = INTERSECT;
-		// result->len = distance;
-		// result->check = e_caps;
-
-		// return (distance);
-	}
-
-	return (result);
-	// return (NO_INTERSECT);
-} */

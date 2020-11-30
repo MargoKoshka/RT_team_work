@@ -1,4 +1,16 @@
-#include "rtv1.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_calculate_vector_normal_1.c                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msole <msole@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/07 10:29:26 by msole             #+#    #+#             */
+/*   Updated: 2020/11/07 10:29:27 by msole            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "rt.h"
 
 t_vector	vector_norm_tube(t_object *object, t_cross *intersect)
 {
@@ -50,5 +62,19 @@ t_vector	vector_norm_cone(t_object *object, t_cross *intersect)
 		normal = vector_norm_empty_cone(object, intersect);
 	if (intersect->check == e_caps)
 		normal = object->axis;
+	return (normal);
+}
+
+t_vector	vector_norm_paraboloid(t_object *object, t_cross *intersect)
+{
+	double		m;
+	t_vector	tmp;
+	t_vector	tmp_n;
+	t_vector	normal;
+
+	tmp = ft_sub_vectors(&intersect->vec3, &object->pos);
+	m = ft_vector_scalar(&tmp, &object->axis);
+	tmp_n = ft_multiply_vector_num(&object->axis, m + object->k_paraboloid);
+	normal = ft_sub_vectors(&tmp, &tmp_n);
 	return (normal);
 }

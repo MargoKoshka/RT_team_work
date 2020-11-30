@@ -1,7 +1,19 @@
-#include "rtv1.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_raytrace_hemisphere.c                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msole <msole@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/07 10:29:57 by msole             #+#    #+#             */
+/*   Updated: 2020/11/07 10:29:58 by msole            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "rt.h"
 
-void	calculate_len_plane(t_vector *ray, t_object *sphere, t_cross *result)
+void		calculate_len_plane(t_vector *ray,\
+t_object *sphere, t_cross *result)
 {
 	t_vector	intersect;
 	double		angle;

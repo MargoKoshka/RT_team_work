@@ -1,6 +1,18 @@
-#include "rtv1.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_raytrace_cylinder.c                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msole <msole@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/07 10:29:53 by msole             #+#    #+#             */
+/*   Updated: 2020/11/07 10:29:54 by msole            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
-static void	calculate_a_b_c_discr_cylindr(t_object *cylindr, t_vector *ray)
+#include "rt.h"
+
+static void		calculate_a_b_c_discr_cylindr(t_object *cylindr, t_vector *ray)
 {
 	t_vector	v1;
 
@@ -11,7 +23,8 @@ static void	calculate_a_b_c_discr_cylindr(t_object *cylindr, t_vector *ray)
 	cylindr->discr.b = 2 * ft_vector_scalar(&v1, &cylindr->discr.v2);
 }
 
-void	calculate_distance_to_caps(t_vector *ray, t_object *object, t_cross *result)
+void			calculate_distance_to_caps(t_vector *ray, \
+t_object *object, t_cross *result)
 {
 	t_vector	position;
 	t_vector	delta;
@@ -35,7 +48,7 @@ void	calculate_distance_to_caps(t_vector *ray, t_object *object, t_cross *result
 	}
 }
 
-t_cross		ft_intersect_ray_cylinder(t_object *cylindr, t_vector *ray)
+t_cross			ft_intersect_ray_cylinder(t_object *cylindr, t_vector *ray)
 {
 	t_cross		result;
 	double		check;
@@ -50,7 +63,8 @@ t_cross		ft_intersect_ray_cylinder(t_object *cylindr, t_vector *ray)
 	}
 	if (cylindr->discr.discr >= 0 && cylindr->discr.d_2 > 0.001f)
 	{
-		check = check_intersect(ray, &cylindr->pos, &cylindr->axis, cylindr->discr.d_1);
+		check = check_intersect(ray, &cylindr->pos,\
+		&cylindr->axis, cylindr->discr.d_1);
 		if (cylindr->min <= check && check <= cylindr->max)
 		{
 			result.id = INTERSECT;
@@ -63,7 +77,7 @@ t_cross		ft_intersect_ray_cylinder(t_object *cylindr, t_vector *ray)
 	return (result);
 }
 
-t_cross		ft_intersect_ray_tube(t_object *tube, t_vector *ray)
+t_cross			ft_intersect_ray_tube(t_object *tube, t_vector *ray)
 {
 	t_cross		result;
 	double		check;
@@ -88,22 +102,3 @@ t_cross		ft_intersect_ray_tube(t_object *tube, t_vector *ray)
 	}
 	return (result);
 }
-
-// double		ft_intersect_circle_plane(t_vector *ray, t_object *plane, double r)
-// {
-// 	double		len_dist;
-// 	double		angle;
-// 	t_vector	delta;
-
-// 	angle = ft_vector_scalar(&plane->axis, ray);
-// 	if (angle >= 0)
-// 		return (NO_INTERSECT);
-// 	len_dist = ft_vector_scalar(&plane->pos, &plane->axis) / angle;
-// 	if (len_dist == NO_INTERSECT)
-// 		return (NO_INTERSECT);
-// 	delta = ft_multiply_vector_num(ray, len_dist);
-// 	delta= ft_sub_vectors(&delta, &plane->pos);
-// 	if (ft_vector_scalar(&delta, &delta) > (r * r))
-// 		return (NO_INTERSECT);
-// 	return (len_dist);
-// }

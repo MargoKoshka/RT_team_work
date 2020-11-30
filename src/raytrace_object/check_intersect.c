@@ -1,4 +1,16 @@
-#include "rtv1.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_intersect.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: msole <msole@student.42.fr>                +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/07 10:29:34 by msole             #+#    #+#             */
+/*   Updated: 2020/11/07 10:29:35 by msole            ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "rt.h"
 
 double		check_intersect_old(t_vector *ray, t_object *obj)
 {
@@ -19,7 +31,8 @@ double		check_intersect_old(t_vector *ray, t_object *obj)
 	return (NO_INTERSECT);
 }
 
-double		check_intersect(t_vector *ray, t_vector *pos,t_vector *axis, double len)
+double		check_intersect(t_vector *ray, t_vector *pos,\
+t_vector *axis, double len)
 {
 	t_vector	intersect;
 	double		check;
